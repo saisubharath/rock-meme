@@ -3714,6 +3714,403 @@ before  the application tag opening
 <uses-permission android:name="android.permission.RECEIVE_SMS"/>
 
 
+1.PLANENTS
+
+<!-- activity_main.xml -->
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayoutxmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    tools:context=".MainActivity">
+
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:entries="@array/planets_array" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/spinner"
+        android:layout_centerHorizontal="true"
+        android:paddingTop="16dp"
+        android:src="@drawable/ic_launcher_foreground" />
+</RelativeLayout>
+
+
+
+
+<!-- arrays.xml -->
+<resources>
+    <string-array name="planets_array">
+        <item>Mercury</item>
+        <item>Venus</item>
+        <item>Earth</item>
+        <!-- Add more items as needed -->
+    </string-array>
+</resources>
+
+
+
+JAVA CODE
+import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.Spinner;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+public class MainActivity extends AppCompatActivity {
+
+    private Spinner spinner;
+    private ImageViewimageView;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        spinner = findViewById(R.id.spinner);
+        imageView = findViewById(R.id.imageView);
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.planets_array, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?>parentView, View selectedItemView, int position, long id) {
+                String selectedOption = (String) parentView.getItemAtPosition(position);
+                intimageResource = 0;
+
+                // Set the image resource based on the selected option
+                switch (selectedOption) {
+                    case "Mercury":
+                        imageResource = R.drawable.mercury_image;
+                        break;
+                    case "Venus":
+                        imageResource = R.drawable.venus_image;
+                        break;
+                    case "Earth":
+                        imageResource = R.drawable.earth_image;
+                        break;
+                    // Add more cases for other options as needed
+                }
+
+                // Set the image
+                imageView.setImageResource(imageResource);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?>parentView) {
+                // Do nothing
+            }
+        });
+    }
+}
+
+
+
+spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+    @Override
+    public void onItemSelected(AdapterView<?>parentView, View selectedItemView, int position, long id) {
+        String selectedOption = (String) parentView.getItemAtPosition(position);
+        intimageResource = 0;
+
+        // Set the image resource based on the selected option
+        switch (selectedOption) {
+            case "Mercury":
+                imageResource = R.drawable.mercury_image;
+                break;
+            case "Venus":
+                imageResource = R.drawable.venus_image;
+                break;
+            case "Earth":
+                imageResource = R.drawable.earth_image;
+                break;
+            // Add more cases for other options as needed
+        }
+
+        // Set the image
+        imageView.setImageResource(imageResource);
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?>parentView) {
+        // Do nothing
+    }
+});
+
+
+
+
+
+
+
+
+
+
+
+2. SPINNER
+
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayoutxmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <Spinner
+        android:id="@+id/color_spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="16dp"/>
+
+    <TextView
+        android:id="@+id/textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/color_spinner"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:padding="16dp"
+        android:text="Sample Text"
+        android:textSize="24sp" />
+
+</RelativeLayout>
+
+
+JAVA CODE
+import android.graphics.Color;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
+import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+public class MainActivity extends AppCompatActivity {
+
+    Spinner colorSpinner;
+    TextViewtextView;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        colorSpinner = findViewById(R.id.color_spinner);
+        textView = findViewById(R.id.textview);
+
+        // Define the color options in the spinner
+        String[] colors = {"Red", "Green", "Blue", "Yellow"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, colors);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        colorSpinner.setAdapter(adapter);
+
+        // Set listener to handle spinner item selection
+        colorSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selectedColor = (String) parent.getItemAtPosition(position);
+                intcolor = getColorCode(selectedColor);
+                textView.setBackgroundColor(color);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // Do nothing
+            }
+        });
+    }
+
+    // Method to return the color code based on selected label
+    private intgetColorCode(String colorLabel) {
+        switch (colorLabel) {
+            case "Red":
+                return Color.RED;
+            case "Green":
+                return Color.GREEN;
+            case "Blue":
+                return Color.BLUE;
+            case "Yellow":
+                return Color.YELLOW;
+            default:
+                return Color.BLACK;
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+3. PATIENT REGISTRATION
+
+{NEED TO MODIFY THE STUDENT DETAILS INTO PATIENT DETAILS}
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayoutxmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Enter Name"
+        android:textSize="30dp"
+        />
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/edttxtname"
+        android:textSize="30dp"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Enter Age"
+        android:textSize="30dp"
+        />
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/edttxtage"
+        android:textSize="30dp"
+        />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnsave"
+        android:text="Save"
+        />
+
+</LinearLayout>
+
+
+
+
+
+
+JAVA CODE
+
+package com.example.myapplication1;
+
+importandroidx.appcompat.app.AppCompatActivity;
+importandroid.content.Context;
+importandroid.database.sqlite.SQLiteDatabase;
+importandroid.os.Bundle;
+importandroid.view.View;
+importandroid.widget.Button;
+importandroid.widget.EditText;
+importandroid.widget.Toast;
+
+public class MainActivity extends AppCompatActivity {
+
+    SQLiteDatabasedb;
+    Button btnsave;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        btnsave=(Button)findViewById(R.id.btnsave);
+        EditTextedttxtname = (EditText) findViewById(R.id.edttxtname);
+        EditTextedttxtage = (EditText) findViewById(R.id.edttxtage);
+
+        db=openOrCreateDatabase("StudentDB", Context.MODE_PRIVATE,null);
+        db.execSQL("CREATE TABLE IF NOT EXISTS Student1(Name VARCHAR,Age VARCHAR);");
+
+        btnsave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Toast.makeText(getApplicationContext(),"Database Created",Toast.LENGTH_LONG).show();
+
+                db.execSQL("INSERT INTO Student1 VALUES( '"+edttxtname.getText()+"','"+ edttxtage.getText()+"');");
+                Toast.makeText(getApplicationContext(),"Record Inserted",Toast.LENGTH_LONG).show();
+            }
+        }); } }
+
+                          4. FOOD DELIVERY APP
+
+<RelativeLayoutxmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:padding="16dp"
+tools:context=".MainActivity">
+
+<ListView
+android:id="@+id/listView"
+android:layout_width="match_parent"
+android:layout_height="match_parent" />
+
+</RelativeLayout>
+
+JAVA
+
+package com.example.myapplication;
+
+import android.annotation.SuppressLint;
+import android.os.Bundle;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import androidx.appcompat.app.AppCompatActivity;
+
+public class MainActivityextends AppCompatActivity {
+
+private ListViewlistView;
+private String[] foodItems= {"Pizza", "Burger", "Sushi", "Tacos", "Pasta"};
+private double[] prices = {10.99, 8.49, 12.99, 9.99, 11.49};
+
+@SuppressLint("MissingInflatedId")
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+super.onCreate(savedInstanceState);
+setContentView(R.layout.activity_main);
+
+listView= findViewById(R.id.listView);
+
+// Create an ArrayAdapter to populate the ListView
+ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_list_item_1, android.R.id.text1, foodItems);
+
+// Set the ArrayAdapter on the ListView
+listView.setAdapter(adapter);
+
+// Set item click listener to display price of selected food item
+listView.setOnItemClickListener((parent, view, position, id) -> {
+            String selectedFood = foodItems[position];
+double price = prices[position];
+// Display price using Toast or any other method
+            // For simplicity, we're just printing it to the console
+System.out.println("Price of " + selectedFood + ": $" + price);
+        });
+    }
+}
+
+
+
 
  
  
